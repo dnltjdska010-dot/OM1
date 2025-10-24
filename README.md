@@ -1,23 +1,35 @@
 ![OM_Banner_X2 (1)](https://github.com/user-attachments/assets/853153b7-351a-433d-9e1a-d257b781f93c)
 
-<p align="center">  <a href="https://arxiv.org/abs/2412.18588">Technical Paper</a> |  <a href="https://docs.openmind.org/">Documentation</a> |  <a href="https://x.com/openmind_agi">X</a> | <a href="https://discord.gg/VUjpg4ef5n">Discord</a> </p>
+<p align="center">
+  <a href="https://arxiv.org/abs/2412.18588">Technical Paper</a> |
+  <a href="https://docs.openmind.org/">Documentation</a> |
+  <a href="https://x.com/openmind_agi">X</a> |
+  <a href="https://discord.gg/VUjpg4ef5n">Discord</a>
+</p>
 
-**OpenMind's OM1 is a modular AI runtime that empowers developers to create and deploy multimodal AI agents across digital environments and physical robots**, including Humanoids, Phone Apps, websites, Quadrupeds, and educational robots such as TurtleBot 4. OM1 agents can process diverse inputs like web data, social media, camera feeds, and LIDAR, while enabling physical actions including motion, autonomous navigation, and natural conversations. The goal of OM1 is to make it easy to create highly capable human-focused robots, that are easy to upgrade and (re)configure to accommodate different physical form factors.
+**OpenMind's OM1 is a modular AI runtime that empowers developers to create and deploy multimodal AI agents across digital environments and physical robots**, including Humanoids, Phone Apps, websites, Quadrupeds, and educational robots such as TurtleBot 4. OM1 agents can process diverse inputs like web data, social media, camera feeds, and LIDAR, while enabling physical actions including motion, autonomous navigation, and natural conversations. The goal of OM1 is to make it easy to create highly capable human-focused robots that are easy to upgrade and (re)configure to accommodate different physical form factors.
+
+---
 
 ## Capabilities of OM1
 
 * **Modular Architecture**: Designed with Python for simplicity and seamless integration.
 * **Data Input**: Easily handles new data and sensors.
-* **Hardware Support via Plugins**: Supports new hardware through plugins for API endpoints and specific robot hardware connections to `ROS2`, `Zenoh`, and `CycloneDDS`. (We recommend `Zenoh` for all new development).
+* **Hardware Support via Plugins**: Supports new hardware through plugins for API endpoints and specific robot hardware connections to `ROS2`, `Zenoh`, and `CycloneDDS`. (We recommend `Zenoh` for all new development.)
 * **Web-Based Debugging Display**: Monitor the system in action with WebSim (available at http://localhost:8000/) for easy visual debugging.
 * **Pre-configured Endpoints**: Supports Voice-to-Speech, OpenAI’s `gpt-4o`, DeepSeek, and multiple Visual Language Models (VLMs) with pre-configured endpoints for each service.
 
+---
+
 ## Architecture Overview
-  ![Artboard 1@4x 1 (1)](https://github.com/user-attachments/assets/14e9b916-4df7-4700-9336-2983c85be311)
+
+![Architecture Overview](https://github.com/user-attachments/assets/14e9b916-4df7-4700-9336-2983c85be311)
+
+---
 
 ## Getting Started - Hello World
 
-To get started with OM1, let's run the Spot agent. Spot uses your webcam to capture and label objects. These text captions are then sent to `OpenAI 4o`, which returns `movement`, `speech` and `face` action commands. These commands are displayed on WebSim along with basic timing and other debugging information.
+To get started with OM1, let's run the Spot agent. Spot uses your webcam to capture and label objects. These text captions are then sent to `OpenAI 4o`, which returns `movement`, `speech`, and `face` action commands. These commands are displayed on WebSim along with basic timing and other debugging information.
 
 ### Package Management and VENV
 
@@ -30,20 +42,14 @@ git clone https://github.com/openmind/OM1.git
 cd OM1
 git submodule update --init
 uv venv
-```
+
 
 ### Install Dependencies
 
-For MacOS  
-```bash
 brew install portaudio ffmpeg
-```
-
-For Linux  
-```bash
 sudo apt-get update
 sudo apt-get install portaudio19-dev python-dev ffmpeg
-```
+
 
 ### Obtain an OpenMind API Key
 
@@ -52,9 +58,9 @@ Obtain your API Key at [OpenMind Portal](https://portal.openmind.org/). Copy it 
 ### Launching OM1
 
 Run
-```bash
+# Launch the Spot demo agent with simulated actions and webcam input
 uv run src/run.py spot
-```
+
 
 After launching OM1, the Spot agent will interact with you and perform (simulated) actions. For more help connecting OM1 to your robot hardware, see [getting started](https://docs.openmind.org/getting-started).
 
@@ -69,13 +75,11 @@ After launching OM1, the Spot agent will interact with you and perform (simulate
 
 OM1 assumes that robot hardware provides a high-level SDK that accepts elemental movement and action commands such as `backflip`, `run`, `gently pick up the red apple`, `move(0.37, 0, 0)`, and `smile`. An example is provided in `actions/move_safe/connector/ros2.py`:
 
-```python
-...
+# Example: handling a "shake paw" command using a robot client
 elif output_interface.action == "shake paw":
     if self.sport_client:
         self.sport_client.Hello()
-...
-```
+
 
 If your robot hardware does not yet provide a suitable HAL (hardware abstraction layer), traditional robotics approaches such as RL (reinforcement learning) in concert with suitable simulation environments (Unity, Gazebo), sensors (such as hand mounted ZED depth cameras), and custom VLAs will be needed for you to create one. It is further assumed that your HAL accepts motion trajectories, provides battery and thermal management/monitoring, and calibrates and tunes sensors such as IMUs, LIDARs, and magnetometers. 
 
@@ -123,18 +127,19 @@ For Zsh: vim ~/.zshrc.
 
 Add 
 
-```bash 
 export OM_API_KEY="your_api_key"
-```
+
 
 Update the docker-compose file. Replace "unitree_go2_autonomy_advance" with the agent you want to run.
 ```bash
 command: ["unitree_go2_autonomy_advance"]
+
 ```
 
 ```bash
 cd OM1
 docker-compose up om1 -d --no-build
+
 ```
 - For unitree_go2_ros2_sdk
 ```bash
